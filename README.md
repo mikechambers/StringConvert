@@ -12,16 +12,14 @@ Place StringConvert in the _brackets-app/brackets/extensions/user/_ directory, a
 
 ## Usage
 
-*CTRL / CMD - U* : Converts selected text to upper case.
-
-*CTRL / CMD - L* : Converts selected text to lower case.
-
-*CTRL / CMD - T* : Encodes selected text with HTML entities.
+**CTRL / CMD - U** : Converts selected text to upper case.  
+**CTRL / CMD - L** : Converts selected text to lower case.  
+**CTRL / CMD - T** : Encodes selected text with HTML entities.  
 
 
-Created by Mike Chambers
-https://github.com/mikechambers/StringConvert
-mikechambers@gmail.com
+Created by Mike Chambers  
+https://github.com/mikechambers/StringConvert  
+mikechambers@gmail.com  
 
 
 Copyright (c) 2012 Mike Chambers. All rights reserved.
