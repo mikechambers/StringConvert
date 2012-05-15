@@ -6,6 +6,19 @@ String conversion extension for the Adobe Brackets Web Editor.
 Adobe Brackets:
 https://github.com/adobe/brackets
 
+## Installation
+
+Place StringConvert in the _brackets-app/brackets/extensions/user/_ directory, and refresh brackets.
+
+## Usage
+
+*CTRL / CMD - U* : Converts selected text to upper case.
+
+*CTRL / CMD - L* : Converts selected text to lower case.
+
+*CTRL / CMD - T* : Encodes selected text with HTML entities.
+
+
 Created by Mike Chambers
 https://github.com/mikechambers/StringConvert
 mikechambers@gmail.com
