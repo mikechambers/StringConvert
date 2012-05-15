@@ -79,17 +79,18 @@ define(function (require, exports, module) {
         activeEditor.replaceSelection(activeEditor.getSelectedText().toLowerCase());
     };
     
+    var _entitiesRegEx = [[/&/g, "&amp;"], [/</g, "&lt;"], [/>/g, "&gt;"], [/"/g, "&quot;"]];
     var _convertToHTMLEntities = function () {
         var activeEditor = _activeEditor();
         
         var escaped = activeEditor.getSelectedText();
-        var findReplace = [[/&/g, "&amp;"], [/</g, "&lt;"], [/>/g, "&gt;"], [/"/g, "&quot;"]];
-        var len = findReplace.length;
+        
+        var len = _entitiesRegEx.length;
 
         var i;
         var item;
         for (i = 0; i < len; i++) {
-            item = findReplace[i];
+            item = _entitiesRegEx[i];
             console.log(item);
             escaped = escaped.replace(item[0], item[1]);
         }
