@@ -40,7 +40,8 @@ define(function (require, exports, module) {
     
     exports.CONVERT_UPPERCASE = "convert.uppercase";
     exports.CONVERT_LOWERCASE = "convert.lowercase";
-    exports.CONVERT_HTML_ENTITIES = "convert.htmlentities";
+    exports.CONVERT_HTML_ENTITIES = "convert.encode.htmlentities";
+    exports.CONVERT_DECODE_HTML_ENTITIES = "convert.decode.htmlentities";
     
     //Hack for keybindings
     //from : https://github.com/jrowny/brackets-snippets/blob/master/main.js
@@ -52,6 +53,8 @@ define(function (require, exports, module) {
     currentKeyMap['Ctrl-U'] = exports.CONVERT_UPPERCASE;
     currentKeyMap['Ctrl-L'] = exports.CONVERT_LOWERCASE;
     currentKeyMap['Ctrl-T'] = exports.CONVERT_HTML_ENTITIES;
+    currentKeyMap['Ctrl-D'] = exports.CONVERT_DECODE_HTML_ENTITIES;
+    
     
     
     for (key in currentKeyMap) {
@@ -79,22 +82,19 @@ define(function (require, exports, module) {
         activeEditor.replaceSelection(activeEditor.getSelectedText().toLowerCase());
     };
     
-    var _entitiesRegEx = [[/&/g, "&amp;"], [/</g, "&lt;"], [/>/g, "&gt;"], [/"/g, "&quot;"]];
-    var _convertToHTMLEntities = function () {
+    var _encodeHTMLEntities = function () {
         var activeEditor = _activeEditor();
         
-        var escaped = activeEditor.getSelectedText();
+        var escaped = $("<div />").text(activeEditor.getSelectedText()).html();
         
-        var len = _entitiesRegEx.length;
+        activeEditor.replaceSelection(escaped);
+    };
 
-        var i;
-        var item;
-        for (i = 0; i < len; i++) {
-            item = _entitiesRegEx[i];
-            console.log(item);
-            escaped = escaped.replace(item[0], item[1]);
-        }
-    
+    var _decodeHTMLEntities = function () {
+        var activeEditor = _activeEditor();
+        
+        var escaped = $("<div />").html(activeEditor.getSelectedText()).text();
+        
         activeEditor.replaceSelection(escaped);
     };
     
@@ -122,6 +122,6 @@ define(function (require, exports, module) {
     
     CommandManager.register(exports.CONVERT_UPPERCASE, _convertSelectionToUpperCase);
     CommandManager.register(exports.CONVERT_LOWERCASE, _convertSelectionToLowerCase);
-    CommandManager.register(exports.CONVERT_HTML_ENTITIES, _convertToHTMLEntities);
-    
+    CommandManager.register(exports.CONVERT_HTML_ENTITIES, _encodeHTMLEntities);
+    CommandManager.register(exports.CONVERT_DECODE_HTML_ENTITIES, _decodeHTMLEntities);
 });
