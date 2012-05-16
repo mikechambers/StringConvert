@@ -32,11 +32,6 @@ define(function (require, exports, module) {
     var KeyMap = brackets.getModule("command/KeyMap");
     var CommandManager = brackets.getModule("command/CommandManager");
     var KeyBindingManager = brackets.getModule("command/KeyBindingManager");
-    var CommandMananger = brackets.getModule("command/KeyMap");
-    
-    var _activeEditor = function () {
-        return EditorManager.getFocusedEditor();
-    };
     
     exports.CONVERT_UPPERCASE = "convert_uppercase";
     exports.CONVERT_LOWERCASE = "convert_lowercase";
@@ -44,6 +39,8 @@ define(function (require, exports, module) {
     exports.CONVERT_DECODE_HTML_ENTITIES = "convert_decode_htmlentities";
     exports.CONVERT_TO_SINGLE_QUOTES = "convert_to_singlequotes";
     exports.CONVERT_TO_DOUBLE_QUOTES = "convert_to_doublequotes";
+    exports.CONVERT_TO_ENCODE_URI_COMPONENT = "convert_to_encodeuricomponent";
+    exports.CONVERT_TO_DECODE_URI_COMPONENT = "convert_to_decodeuricomponent";
     
     //Hack for keybindings
     //from : https://github.com/jrowny/brackets-snippets/blob/master/main.js
@@ -73,61 +70,59 @@ define(function (require, exports, module) {
     KeyBindingManager.installKeymap(_newGlobalKeymap);
     //end keybinding hack
     
+    var _getActiveSelection = function () {
+        return EditorManager.getFocusedEditor().getSelectedText();
+    };
+    
+    var _replaceActiveSelection = function (text) {
+        EditorManager.getFocusedEditor().replaceSelection(text);
+    };
+    
+    
     var _convertSelectionToUpperCase = function () {
-        var activeEditor = _activeEditor();
-        
-        activeEditor.replaceSelection(activeEditor.getSelectedText().toUpperCase());
+        var s = _getActiveSelection();
+        _replaceActiveSelection(s.toUpperCase());
     };
 
     var _convertSelectionToLowerCase = function () {
-        var activeEditor = _activeEditor();
-        activeEditor.replaceSelection(activeEditor.getSelectedText().toLowerCase());
+        var s = _getActiveSelection();
+        _replaceActiveSelection(s.toLowerCase());
     };
     
     var _encodeHTMLEntities = function () {
-        var activeEditor = _activeEditor();
-        
-        var escaped = $("<div />").text(activeEditor.getSelectedText()).html();
-        
-        activeEditor.replaceSelection(escaped);
+        var s = _getActiveSelection();
+        var escaped = $("<div />").text(s).html();
+        _replaceActiveSelection(escaped);
     };
 
     var _decodeHTMLEntities = function () {
-        var activeEditor = _activeEditor();
-        
-        var escaped = $("<div />").html(activeEditor.getSelectedText()).text();
-        
-        activeEditor.replaceSelection(escaped);
+        var s = _getActiveSelection();
+        var escaped = $("<div />").html(s).text();
+        _replaceActiveSelection(escaped);
     };
     
-    var _convertToEncodeURI = function () {
-        var activeEditor = _activeEditor();
-    };
-      
-    var _converyToEncodeURIComponent = function () {
-        var activeEditor = _activeEditor();
+    var _convertToEncodeURIComponent = function () {
+        var s = _getActiveSelection();
+        _replaceActiveSelection(encodeURIComponent(s));
     };
     
-    var _convertToEscape = function () {
-        var activeEditor = _activeEditor();
+    var _convertToDecodeURIComponent = function () {
+        var s = _getActiveSelection();
+        _replaceActiveSelection(decodeURIComponent(s));
     };
     
     var _doubleQuoteReg = /\"/g;
     var _convertToSingleQuotes = function () {
-        var activeEditor = _activeEditor();
-        
-        var out = activeEditor.getSelectedText().replace(_doubleQuoteReg, "'");
-        activeEditor.replaceSelection(out);
-        
+        var s = _getActiveSelection();
+        var out = s.replace(_doubleQuoteReg, "'");
+        _replaceActiveSelection(out);
     };
     
     var _singleQuoteReg = /\'/g;
     var _convertToDoubleQuotes = function () {
-        var activeEditor = _activeEditor();
-        
-        var out = activeEditor.getSelectedText().replace(_singleQuoteReg, "\"");
-        activeEditor.replaceSelection(out);
-        
+        var s = _getActiveSelection();
+        var out = s.replace(_singleQuoteReg, "'");
+        _replaceActiveSelection(out);
     };
     
     //toggle quotes
@@ -142,6 +137,8 @@ define(function (require, exports, module) {
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_DECODE_HTML_ENTITIES + "'>HTML Entity Decode</a></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_SINGLE_QUOTES + "'>Double to Single Quotes</a></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_DOUBLE_QUOTES + "'>Single to Double Quotes</a></li>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_ENCODE_URI_COMPONENT + "'>Encode URI Component</a></li>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_DECODE_URI_COMPONENT + "'>Decode URI Component</a></li>" +
         "<li><hr class='divider'></li>" +
         "</ul></li>");
     
@@ -171,6 +168,12 @@ define(function (require, exports, module) {
             case exports.CONVERT_TO_DOUBLE_QUOTES:
                 _convertToDoubleQuotes();
                 break;
+            case exports.CONVERT_TO_ENCODE_URI_COMPONENT:
+                _convertToEncodeURIComponent();
+                break;
+            case exports.CONVERT_TO_DECODE_URI_COMPONENT:
+                _convertToDecodeURIComponent();
+                break;
             }
             
         }
@@ -182,4 +185,6 @@ define(function (require, exports, module) {
     CommandManager.register(exports.CONVERT_DECODE_HTML_ENTITIES, _decodeHTMLEntities);
     CommandManager.register(exports.CONVERT_TO_SINGLE_QUOTES, _convertToSingleQuotes);
     CommandManager.register(exports.CONVERT_TO_DOUBLE_QUOTES, _convertToDoubleQuotes);
+    CommandManager.register(exports.CONVERT_TO_ENCODE_URI_COMPONENT, _convertToEncodeURIComponent);
+    CommandManager.register(exports.CONVERT_TO_DECODE_URI_COMPONENT, _convertToDecodeURIComponent);
 });

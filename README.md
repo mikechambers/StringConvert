@@ -13,6 +13,8 @@ https://github.com/adobe/brackets
 * Decode HTML entities
 * Convert single quotes to double quotes
 * Convert double quotes to single quotes
+* Encode URI Component
+* Decode URI Component
 
 ## Installation
 
