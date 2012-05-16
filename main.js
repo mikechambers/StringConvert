@@ -38,10 +38,10 @@ define(function (require, exports, module) {
         return EditorManager.getFocusedEditor();
     };
     
-    exports.CONVERT_UPPERCASE = "convert.uppercase";
-    exports.CONVERT_LOWERCASE = "convert.lowercase";
-    exports.CONVERT_HTML_ENTITIES = "convert.encode.htmlentities";
-    exports.CONVERT_DECODE_HTML_ENTITIES = "convert.decode.htmlentities";
+    exports.CONVERT_UPPERCASE = "convert_uppercase";
+    exports.CONVERT_LOWERCASE = "convert_lowercase";
+    exports.CONVERT_HTML_ENTITIES = "convert_encode_htmlentities";
+    exports.CONVERT_DECODE_HTML_ENTITIES = "convert_decode_htmlentities";
     
     //Hack for keybindings
     //from : https://github.com/jrowny/brackets-snippets/blob/master/main.js
@@ -110,15 +110,42 @@ define(function (require, exports, module) {
         var activeEditor = _activeEditor();
     };
     
-    /*
-    var $item = $("<li></li>");
-    $("<a href='#' id='hello-world'>Hello World</a>")
-        .click(function () {
-            alert("Hello Document: " + DocumentManager.getCurrentDocument().file.fullPath);
-        })
-        .appendTo($item);
-    $("#menu-experimental-usetab").parent().after($item);
-    */
+    //toggle quotes
+    //strip line returns
+    
+    var menu = $("<li><a href='#'>Convert</a>" +
+        "<ul>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_LOWERCASE + "'>To Lower Case</a></li>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_UPPERCASE + "'>To Upper Case</a></li>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_HTML_ENTITIES + "'>HTML Entity Encode</a></li>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_DECODE_HTML_ENTITIES + "'>HTML Entity Decode</a></li>" +
+        "<li><hr class='divider'></li>" +
+        "</ul></li>");
+
+    $("#menu-edit-duplicate").parent().before(menu);
+    
+    $(".string-convert-item").click(
+        function (item) {
+            var action = $(item.target).data("action");
+
+            switch (action) {
+            case exports.CONVERT_UPPERCASE:
+                _convertSelectionToUpperCase();
+                break;
+            case exports.CONVERT_LOWERCASE:
+                console.log("lowercase");
+                _convertSelectionToLowerCase();
+                break;
+            case exports.CONVERT_HTML_ENTITIES:
+                _encodeHTMLEntities();
+                break;
+            case exports.CONVERT_DECODE_HTML_ENTITIES:
+                _decodeHTMLEntities();
+                break;
+            }
+            
+        }
+    );
     
     CommandManager.register(exports.CONVERT_UPPERCASE, _convertSelectionToUpperCase);
     CommandManager.register(exports.CONVERT_LOWERCASE, _convertSelectionToLowerCase);
