@@ -42,6 +42,8 @@ define(function (require, exports, module) {
     exports.CONVERT_LOWERCASE = "convert_lowercase";
     exports.CONVERT_HTML_ENTITIES = "convert_encode_htmlentities";
     exports.CONVERT_DECODE_HTML_ENTITIES = "convert_decode_htmlentities";
+    exports.CONVERT_TO_SINGLE_QUOTES = "convert_to_singlequotes";
+    exports.CONVERT_TO_DOUBLE_QUOTES = "convert_to_doublequotes";
     
     //Hack for keybindings
     //from : https://github.com/jrowny/brackets-snippets/blob/master/main.js
@@ -110,8 +112,27 @@ define(function (require, exports, module) {
         var activeEditor = _activeEditor();
     };
     
+    var _doubleQuoteReg = /\"/g;
+    var _convertToSingleQuotes = function () {
+        var activeEditor = _activeEditor();
+        
+        var out = activeEditor.getSelectedText().replace(_doubleQuoteReg, "'");
+        activeEditor.replaceSelection(out);
+        
+    };
+    
+    var _singleQuoteReg = /\'/g;
+    var _convertToDoubleQuotes = function () {
+        var activeEditor = _activeEditor();
+        
+        var out = activeEditor.getSelectedText().replace(_singleQuoteReg, "\"");
+        activeEditor.replaceSelection(out);
+        
+    };
+    
     //toggle quotes
     //strip line returns
+    //wrap in double quotes
     
     var menu = $("<li><a href='#'>Convert</a>" +
         "<ul>" +
@@ -119,9 +140,11 @@ define(function (require, exports, module) {
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_UPPERCASE + "'>To Upper Case</a></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_HTML_ENTITIES + "'>HTML Entity Encode</a></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_DECODE_HTML_ENTITIES + "'>HTML Entity Decode</a></li>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_SINGLE_QUOTES + "'>Double to Single Quotes</a></li>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_DOUBLE_QUOTES + "'>Single to Double Quotes</a></li>" +
         "<li><hr class='divider'></li>" +
         "</ul></li>");
-
+    
     $("#menu-edit-duplicate").parent().before(menu);
     
     $(".string-convert-item").click(
@@ -142,6 +165,12 @@ define(function (require, exports, module) {
             case exports.CONVERT_DECODE_HTML_ENTITIES:
                 _decodeHTMLEntities();
                 break;
+            case exports.CONVERT_TO_SINGLE_QUOTES:
+                _convertToSingleQuotes();
+                break;
+            case exports.CONVERT_TO_DOUBLE_QUOTES:
+                _convertToDoubleQuotes();
+                break;
             }
             
         }
@@ -151,4 +180,6 @@ define(function (require, exports, module) {
     CommandManager.register(exports.CONVERT_LOWERCASE, _convertSelectionToLowerCase);
     CommandManager.register(exports.CONVERT_HTML_ENTITIES, _encodeHTMLEntities);
     CommandManager.register(exports.CONVERT_DECODE_HTML_ENTITIES, _decodeHTMLEntities);
+    CommandManager.register(exports.CONVERT_TO_SINGLE_QUOTES, _convertToSingleQuotes);
+    CommandManager.register(exports.CONVERT_TO_DOUBLE_QUOTES, _convertToDoubleQuotes);
 });

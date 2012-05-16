@@ -6,6 +6,14 @@ String conversion extension for the Adobe Brackets Web Editor.
 Adobe Brackets:
 https://github.com/adobe/brackets
 
+## Features
+* Convert to upper case
+* Convert to lower case
+* Encode HTML entities
+* Decode HTML entities
+* Convert single quotes to double quotes
+* Convert double quotes to single quotes
+
 ## Installation
 
 Place StringConvert in the _brackets-app/brackets/extensions/user/_ directory, and refresh brackets.
