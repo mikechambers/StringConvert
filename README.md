@@ -16,6 +16,8 @@ https://github.com/adobe/brackets
 * Toggle quotes (single to double, double to single)
 * Encode URI Component
 * Decode URI Component
+* Base64 Encode
+* Base64 Decode
 
 ## Installation
 

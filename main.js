@@ -22,7 +22,7 @@
  */
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global define, $, brackets */
+/*global define, $, brackets, btoa, atob */
 
 define(function (require, exports, module) {
     'use strict';
@@ -42,6 +42,8 @@ define(function (require, exports, module) {
     exports.CONVERT_TO_ENCODE_URI_COMPONENT = "convert_to_encodeuricomponent";
     exports.CONVERT_TO_DECODE_URI_COMPONENT = "convert_to_decodeuricomponent";
     exports.CONVERT_TO_TOGGLE_QUOTES = "convert_to_toggle_quotes";
+    exports.CONVERT_TO_BASE64_ENCODE = "convert_to_base64encode";
+    exports.CONVERT_TO_BASE64_DECODE = "convert_to_base64decode";
     
     //Hack for keybindings
     //from : https://github.com/jrowny/brackets-snippets/blob/master/main.js
@@ -146,6 +148,16 @@ define(function (require, exports, module) {
         _replaceActiveSelection(chars.join(""));
     };
     
+    var _base64Encode = function () {
+        var s = _getActiveSelection();
+        _replaceActiveSelection(btoa(s));
+    };
+        
+    var _base64Decode = function () {
+        var s = _getActiveSelection();
+        _replaceActiveSelection(atob(s));
+    };
+    
     //toggle quotes
     //strip line returns
     //wrap in double quotes
@@ -161,6 +173,9 @@ define(function (require, exports, module) {
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_SINGLE_QUOTES + "'>Double to Single Quotes</a></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_SINGLE_QUOTES + "'>Double to Single Quotes</a></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_TOGGLE_QUOTES + "'>Toggle Quotes</a></li>" +
+        "<li><hr class='divider'></li>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_BASE64_ENCODE + "'>Base64 Encode</a></li>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_BASE64_DECODE + "'>Base64 Decode</a></li>" +
         "<li><hr class='divider'></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_ENCODE_URI_COMPONENT + "'>Encode URI Component</a></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_DECODE_URI_COMPONENT + "'>Decode URI Component</a></li>" +
@@ -202,6 +217,12 @@ define(function (require, exports, module) {
             case exports.CONVERT_TO_TOGGLE_QUOTES:
                 _toggleQuotes();
                 break;
+            case exports.CONVERT_TO_BASE64_ENCODE:
+                _base64Encode();
+                break;
+            case exports.CONVERT_TO_BASE64_DECODE:
+                _base64Decode();
+                break;
             }
             
         }
@@ -216,5 +237,8 @@ define(function (require, exports, module) {
     CommandManager.register(exports.CONVERT_TO_ENCODE_URI_COMPONENT, _convertToEncodeURIComponent);
     CommandManager.register(exports.CONVERT_TO_DECODE_URI_COMPONENT, _convertToDecodeURIComponent);
     CommandManager.register(exports.CONVERT_TO_TOGGLE_QUOTES, _toggleQuotes);
+    CommandManager.register(exports.CONVERT_TO_BASE64_ENCODE, _base64Encode);
+    CommandManager.register(exports.CONVERT_TO_BASE64_DECODE, _base64Decode);
+
     
 });
