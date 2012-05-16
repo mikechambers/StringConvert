@@ -26,7 +26,7 @@
 
 define(function (require, exports, module) {
     'use strict';
-    
+
     // Brackets modules
     var EditorManager = brackets.getModule("editor/EditorManager");
     var KeyMap = brackets.getModule("command/KeyMap");
@@ -44,6 +44,7 @@ define(function (require, exports, module) {
     exports.CONVERT_TO_TOGGLE_QUOTES = "convert_to_toggle_quotes";
     exports.CONVERT_TO_BASE64_ENCODE = "convert_to_base64encode";
     exports.CONVERT_TO_BASE64_DECODE = "convert_to_base64decode";
+    exports.CONVERT_TO_STRIP_TRAILING_WHITESPACE = "convert_to_strip_trailing_whitespace";
     
     //Hack for keybindings
     //from : https://github.com/jrowny/brackets-snippets/blob/master/main.js
@@ -158,6 +159,22 @@ define(function (require, exports, module) {
         _replaceActiveSelection(atob(s));
     };
     
+    var _trimRightReg = /\s+$/;
+    var _cleanTrailingWhitespace = function () {
+        var s = _getActiveSelection();
+        
+        var lines = s.split("\n");
+        var len = lines.length;
+        
+        var i;
+        for (i = 0; i < len; i++) {
+            lines[i] = lines[i].replace(_trimRightReg, "");
+        }
+        
+        var output = lines.join("\n");
+        _replaceActiveSelection(output);
+    };
+    
     //toggle quotes
     //strip line returns
     //wrap in double quotes
@@ -179,6 +196,8 @@ define(function (require, exports, module) {
         "<li><hr class='divider'></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_ENCODE_URI_COMPONENT + "'>Encode URI Component</a></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_DECODE_URI_COMPONENT + "'>Decode URI Component</a></li>" +
+        "<li><hr class='divider'></li>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_STRIP_TRAILING_WHITESPACE + "'>Strip Trailing Whitespace</a></li>" +
         "</ul></li>" +
         "<li><hr class='divider'></li>");
     
@@ -223,8 +242,10 @@ define(function (require, exports, module) {
             case exports.CONVERT_TO_BASE64_DECODE:
                 _base64Decode();
                 break;
+            case exports.CONVERT_TO_STRIP_TRAILING_WHITESPACE:
+                _cleanTrailingWhitespace();
+                break;
             }
-            
         }
     );
     
@@ -239,6 +260,7 @@ define(function (require, exports, module) {
     CommandManager.register(exports.CONVERT_TO_TOGGLE_QUOTES, _toggleQuotes);
     CommandManager.register(exports.CONVERT_TO_BASE64_ENCODE, _base64Encode);
     CommandManager.register(exports.CONVERT_TO_BASE64_DECODE, _base64Decode);
+    CommandManager.register(exports.CONVERT_TO_STRIP_TRAILING_WHITESPACE, _cleanTrailingWhitespace);
 
     
 });
