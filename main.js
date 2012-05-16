@@ -41,6 +41,7 @@ define(function (require, exports, module) {
     exports.CONVERT_TO_DOUBLE_QUOTES = "convert_to_doublequotes";
     exports.CONVERT_TO_ENCODE_URI_COMPONENT = "convert_to_encodeuricomponent";
     exports.CONVERT_TO_DECODE_URI_COMPONENT = "convert_to_decodeuricomponent";
+    exports.CONVERT_TO_TOGGLE_QUOTES = "convert_to_toggle_quotes";
     
     //Hack for keybindings
     //from : https://github.com/jrowny/brackets-snippets/blob/master/main.js
@@ -125,6 +126,26 @@ define(function (require, exports, module) {
         _replaceActiveSelection(out);
     };
     
+    var _toggleQuotes = function () {
+        var s = _getActiveSelection();
+        
+        var chars = s.split('');
+        var len = chars.length;
+        
+        var i;
+        var char;
+        for (i = 0; i < len; i++) {
+            char = chars[i];
+            if (char === "\"") {
+                chars[i] = "'";
+            } else if (char === "'") {
+                chars[i] = "\"";
+            }
+        }
+        
+        _replaceActiveSelection(chars.join(""));
+    };
+    
     //toggle quotes
     //strip line returns
     //wrap in double quotes
@@ -133,14 +154,18 @@ define(function (require, exports, module) {
         "<ul>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_LOWERCASE + "'>To Lower Case</a></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_UPPERCASE + "'>To Upper Case</a></li>" +
+        "<li><hr class='divider'></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_HTML_ENTITIES + "'>HTML Entity Encode</a></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_DECODE_HTML_ENTITIES + "'>HTML Entity Decode</a></li>" +
+        "<li><hr class='divider'></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_SINGLE_QUOTES + "'>Double to Single Quotes</a></li>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_DOUBLE_QUOTES + "'>Single to Double Quotes</a></li>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_SINGLE_QUOTES + "'>Double to Single Quotes</a></li>" +
+        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_TOGGLE_QUOTES + "'>Toggle Quotes</a></li>" +
+        "<li><hr class='divider'></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_ENCODE_URI_COMPONENT + "'>Encode URI Component</a></li>" +
         "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_DECODE_URI_COMPONENT + "'>Decode URI Component</a></li>" +
-        "<li><hr class='divider'></li>" +
-        "</ul></li>");
+        "</ul></li>" +
+        "<li><hr class='divider'></li>");
     
     $("#menu-edit-duplicate").parent().before(menu);
     
@@ -174,6 +199,9 @@ define(function (require, exports, module) {
             case exports.CONVERT_TO_DECODE_URI_COMPONENT:
                 _convertToDecodeURIComponent();
                 break;
+            case exports.CONVERT_TO_TOGGLE_QUOTES:
+                _toggleQuotes();
+                break;
             }
             
         }
@@ -187,4 +215,6 @@ define(function (require, exports, module) {
     CommandManager.register(exports.CONVERT_TO_DOUBLE_QUOTES, _convertToDoubleQuotes);
     CommandManager.register(exports.CONVERT_TO_ENCODE_URI_COMPONENT, _convertToEncodeURIComponent);
     CommandManager.register(exports.CONVERT_TO_DECODE_URI_COMPONENT, _convertToDecodeURIComponent);
+    CommandManager.register(exports.CONVERT_TO_TOGGLE_QUOTES, _toggleQuotes);
+    
 });
