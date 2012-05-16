@@ -20,6 +20,10 @@ Place StringConvert in the _brackets-app/brackets/extensions/user/_ directory, a
 
 ## Usage
 
+Select text and then select the command from _Edit > Convert_
+
+Some commands also have keyboard shortcuts:
+
 **CTRL / CMD - U** : Converts selected text to upper case.  
 **CTRL / CMD - L** : Converts selected text to lower case.  
 **CTRL / CMD - T** : Encodes selected text with HTML entities.  
