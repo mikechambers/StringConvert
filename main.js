@@ -33,7 +33,7 @@ define(function (require, exports, module) {
     var CommandManager = brackets.getModule("command/CommandManager");
     var KeyBindingManager = brackets.getModule("command/KeyBindingManager");
     
-    var Handlebars = require("Handlebars");
+    //var Handlebars = require("Handlebars");
     
     exports.CONVERT_UPPERCASE = "convert_uppercase";
     exports.CONVERT_LOWERCASE = "convert_lowercase";
@@ -81,7 +81,7 @@ define(function (require, exports, module) {
     };
     
     var _replaceActiveSelection = function (text) {
-        EditorManager.getFocusedEditor().replaceSelection(text);
+        EditorManager.getFocusedEditor()._codeMirror.replaceSelection(text);
     };
     
     
