@@ -33,6 +33,8 @@ define(function (require, exports, module) {
     var CommandManager = brackets.getModule("command/CommandManager");
     var KeyBindingManager = brackets.getModule("command/KeyBindingManager");
     
+    var Handlebars = require("Handlebars");
+    
     exports.CONVERT_UPPERCASE = "convert_uppercase";
     exports.CONVERT_LOWERCASE = "convert_lowercase";
     exports.CONVERT_HTML_ENTITIES = "convert_encode_htmlentities";
