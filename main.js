@@ -33,7 +33,8 @@ define(function (require, exports, module) {
     var CommandManager = brackets.getModule("command/CommandManager");
     var KeyBindingManager = brackets.getModule("command/KeyBindingManager");
     
-    //var Handlebars = require("Handlebars");
+    var Handlebars = require("Handlebars");
+    var menuTemplate = require("text!menu.template");
     
     exports.CONVERT_UPPERCASE = "convert_uppercase";
     exports.CONVERT_LOWERCASE = "convert_lowercase";
@@ -180,28 +181,11 @@ define(function (require, exports, module) {
     //toggle quotes
     //strip line returns
     //wrap in double quotes
+    var template = Handlebars.compile(menuTemplate);
     
-    var menu = $("<li><a href='#'>Convert</a>" +
-        "<ul>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_LOWERCASE + "'>To Lower Case</a></li>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_UPPERCASE + "'>To Upper Case</a></li>" +
-        "<li><hr class='divider'></li>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_HTML_ENTITIES + "'>HTML Entity Encode</a></li>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_DECODE_HTML_ENTITIES + "'>HTML Entity Decode</a></li>" +
-        "<li><hr class='divider'></li>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_SINGLE_QUOTES + "'>Double to Single Quotes</a></li>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_SINGLE_QUOTES + "'>Double to Single Quotes</a></li>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_TOGGLE_QUOTES + "'>Toggle Quotes</a></li>" +
-        "<li><hr class='divider'></li>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_BASE64_ENCODE + "'>Base64 Encode</a></li>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_BASE64_DECODE + "'>Base64 Decode</a></li>" +
-        "<li><hr class='divider'></li>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_ENCODE_URI_COMPONENT + "'>Encode URI Component</a></li>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_DECODE_URI_COMPONENT + "'>Decode URI Component</a></li>" +
-        "<li><hr class='divider'></li>" +
-        "<li><a href='#' class='string-convert-item' data-action='" + exports.CONVERT_TO_STRIP_TRAILING_WHITESPACE + "'>Strip Trailing Whitespace</a></li>" +
-        "</ul></li>" +
-        "<li><hr class='divider'></li>");
+    //todo: right now we compile the template dynamically.
+    //eventually, we will precompile for performance
+    var menu = $(template(exports));
     
     $("#menu-edit-duplicate").parent().before(menu);
     
