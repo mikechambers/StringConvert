@@ -29,53 +29,8 @@ define(function (require, exports, module) {
 
     // Brackets modules
     var EditorManager = brackets.getModule("editor/EditorManager");
-    var KeyMap = brackets.getModule("command/KeyMap");
     var CommandManager = brackets.getModule("command/CommandManager");
-    var KeyBindingManager = brackets.getModule("command/KeyBindingManager");
-    
-    var Handlebars = require("Handlebars");
-    var menuTemplate = require("text!menu.template");
-    
-    exports.CONVERT_UPPERCASE = "convert_uppercase";
-    exports.CONVERT_LOWERCASE = "convert_lowercase";
-    exports.CONVERT_HTML_ENTITIES = "convert_encode_htmlentities";
-    exports.CONVERT_DECODE_HTML_ENTITIES = "convert_decode_htmlentities";
-    exports.CONVERT_TO_SINGLE_QUOTES = "convert_to_singlequotes";
-    exports.CONVERT_TO_DOUBLE_QUOTES = "convert_to_doublequotes";
-    exports.CONVERT_TO_ENCODE_URI_COMPONENT = "convert_to_encodeuricomponent";
-    exports.CONVERT_TO_DECODE_URI_COMPONENT = "convert_to_decodeuricomponent";
-    exports.CONVERT_TO_TOGGLE_QUOTES = "convert_to_toggle_quotes";
-    exports.CONVERT_TO_BASE64_ENCODE = "convert_to_base64encode";
-    exports.CONVERT_TO_BASE64_DECODE = "convert_to_base64decode";
-    exports.CONVERT_TO_STRIP_TRAILING_WHITESPACE = "convert_to_strip_trailing_whitespace";
-    
-    //Hack for keybindings
-    //from : https://github.com/jrowny/brackets-snippets/blob/master/main.js
-    var currentKeyMap = KeyBindingManager.getKeymap(),
-        key = "",
-        newMap = [],
-        newKey = {};
-    
-    currentKeyMap['Ctrl-U'] = exports.CONVERT_UPPERCASE;
-    currentKeyMap['Ctrl-L'] = exports.CONVERT_LOWERCASE;
-    currentKeyMap['Ctrl-T'] = exports.CONVERT_HTML_ENTITIES;
-    currentKeyMap['Ctrl-D'] = exports.CONVERT_DECODE_HTML_ENTITIES;
-    
-    
-    
-    for (key in currentKeyMap) {
-        if (currentKeyMap.hasOwnProperty(key)) {
-            newKey = {};
-            newKey[key] = currentKeyMap[key];
-            newMap.push(newKey);
-        }
-    }
-    var _newGlobalKeymap = KeyMap.create({
-            "bindings": newMap,
-            "platform": brackets.platform
-        });
-    KeyBindingManager.installKeymap(_newGlobalKeymap);
-    //end keybinding hack
+    var Menus          = brackets.getModule("command/Menus");
     
     var _getActiveSelection = function () {
         return EditorManager.getFocusedEditor().getSelectedText();
@@ -128,7 +83,7 @@ define(function (require, exports, module) {
     var _singleQuoteReg = /\'/g;
     var _convertToDoubleQuotes = function () {
         var s = _getActiveSelection();
-        var out = s.replace(_singleQuoteReg, "'");
+        var out = s.replace(_singleQuoteReg, "\"");
         _replaceActiveSelection(out);
     };
     
@@ -178,75 +133,78 @@ define(function (require, exports, module) {
         _replaceActiveSelection(output);
     };
     
-    //toggle quotes
-    //strip line returns
-    //wrap in double quotes
-    var template = Handlebars.compile(menuTemplate);
+    var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
     
-    //todo: right now we compile the template dynamically.
-    //eventually, we will precompile for performance
-    var menu = $(template(exports));
-    
-    $("#menu-edit-duplicate").parent().before(menu);
-    
-    $(".string-convert-item").click(
-        function (item) {
-            var action = $(item.target).data("action");
-
-            switch (action) {
-            case exports.CONVERT_UPPERCASE:
-                _convertSelectionToUpperCase();
-                break;
-            case exports.CONVERT_LOWERCASE:
-                console.log("lowercase");
-                _convertSelectionToLowerCase();
-                break;
-            case exports.CONVERT_HTML_ENTITIES:
-                _encodeHTMLEntities();
-                break;
-            case exports.CONVERT_DECODE_HTML_ENTITIES:
-                _decodeHTMLEntities();
-                break;
-            case exports.CONVERT_TO_SINGLE_QUOTES:
-                _convertToSingleQuotes();
-                break;
-            case exports.CONVERT_TO_DOUBLE_QUOTES:
-                _convertToDoubleQuotes();
-                break;
-            case exports.CONVERT_TO_ENCODE_URI_COMPONENT:
-                _convertToEncodeURIComponent();
-                break;
-            case exports.CONVERT_TO_DECODE_URI_COMPONENT:
-                _convertToDecodeURIComponent();
-                break;
-            case exports.CONVERT_TO_TOGGLE_QUOTES:
-                _toggleQuotes();
-                break;
-            case exports.CONVERT_TO_BASE64_ENCODE:
-                _base64Encode();
-                break;
-            case exports.CONVERT_TO_BASE64_DECODE:
-                _base64Decode();
-                break;
-            case exports.CONVERT_TO_STRIP_TRAILING_WHITESPACE:
-                _cleanTrailingWhitespace();
-                break;
-            }
-        }
+    menu.addMenuItem(
+        "convert_uppercase",
+        CommandManager.register("To Upper Case", "convert_uppercase", _convertSelectionToUpperCase),
+        "Ctrl-U"
     );
     
-    CommandManager.register(exports.CONVERT_UPPERCASE, _convertSelectionToUpperCase);
-    CommandManager.register(exports.CONVERT_LOWERCASE, _convertSelectionToLowerCase);
-    CommandManager.register(exports.CONVERT_HTML_ENTITIES, _encodeHTMLEntities);
-    CommandManager.register(exports.CONVERT_DECODE_HTML_ENTITIES, _decodeHTMLEntities);
-    CommandManager.register(exports.CONVERT_TO_SINGLE_QUOTES, _convertToSingleQuotes);
-    CommandManager.register(exports.CONVERT_TO_DOUBLE_QUOTES, _convertToDoubleQuotes);
-    CommandManager.register(exports.CONVERT_TO_ENCODE_URI_COMPONENT, _convertToEncodeURIComponent);
-    CommandManager.register(exports.CONVERT_TO_DECODE_URI_COMPONENT, _convertToDecodeURIComponent);
-    CommandManager.register(exports.CONVERT_TO_TOGGLE_QUOTES, _toggleQuotes);
-    CommandManager.register(exports.CONVERT_TO_BASE64_ENCODE, _base64Encode);
-    CommandManager.register(exports.CONVERT_TO_BASE64_DECODE, _base64Decode);
-    CommandManager.register(exports.CONVERT_TO_STRIP_TRAILING_WHITESPACE, _cleanTrailingWhitespace);
+    menu.addMenuItem(
+        "convert_lowercase",
+        CommandManager.register("To Lower Case", "convert_lowercase", _convertSelectionToLowerCase),
+        "Ctrl-L"
+    );
+    
+    menu.addMenuItem("convert_divider_a", "---");
+    
+    menu.addMenuItem(
+        "convert_encode",
+        CommandManager.register("HTML Entity Encode", "convert_html.encode", _encodeHTMLEntities)
+    );
+    
+    menu.addMenuItem(
+        "convert_decode",
+        CommandManager.register("HTML Entity Decode", "convert_html.decode", _decodeHTMLEntities)
+    );
+    
+    menu.addMenuItem("convert_divider_b", "---");
+    
+    menu.addMenuItem(
+        "convert_double_to_single",
+        CommandManager.register("Double to Single Quotes", "convert_double_to_single", _convertToSingleQuotes)
+    );
+    
+    menu.addMenuItem(
+        "convert_single_to_double",
+        CommandManager.register("Single to Double Quotes", "convert_single_to_double", _convertToDoubleQuotes)
+    );
+    
+    menu.addMenuItem(
+        "convert_toggle_quotes",
+        CommandManager.register("Toggle Quotes", "convert_toggle_quotes", _toggleQuotes)
+    );
+    
+    menu.addMenuItem("convert_divider_c", "---");
+    
+    menu.addMenuItem(
+        "convert_encode_uri_component",
+        CommandManager.register("Encode URI Component", "convert_encode_uri_component", _convertToEncodeURIComponent)
+    );
+    
+    menu.addMenuItem(
+        "convert_decode_uri_component",
+        CommandManager.register("Decode URI Component", "convert_decode_uri_component", _convertToDecodeURIComponent)
+    );
+    
+    menu.addMenuItem("convert_divider_d", "---");
+    
+    menu.addMenuItem(
+        "convert_base64_encode",
+        CommandManager.register("Base64 Encode", "convert_base64_encode", _base64Encode)
+    );
+  
+    menu.addMenuItem(
+        "convert_base64_decode",
+        CommandManager.register("Base64 Decode", "convert_base64_decode", _base64Decode)
+    );
+    
+    menu.addMenuItem("convert_divider_e", "---");
 
+    menu.addMenuItem(
+        "convert_strip_trailing_whitespace",
+        CommandManager.register("Strip Trailing Whitespace", "convert_strip_trailing_whitespace", _cleanTrailingWhitespace)
+    );
     
 });

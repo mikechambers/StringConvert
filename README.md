@@ -32,8 +32,6 @@ Some commands also have keyboard shortcuts:
 
 **CTRL / CMD - U** : Converts selected text to upper case.  
 **CTRL / CMD - L** : Converts selected text to lower case.  
-**CTRL / CMD - T** : Encodes selected text with HTML entities.  
-**CTRL / CMD - D** : Decode encoded HTML entities within selected text. 
 
 
 Created by Mike Chambers  
