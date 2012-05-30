@@ -135,6 +135,8 @@ define(function (require, exports, module) {
     
     var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
     
+    menu.addMenuDivider();
+    
     menu.addMenuItem(
         "convert_uppercase",
         CommandManager.register("To Upper Case", "convert_uppercase", _convertSelectionToUpperCase),
@@ -147,7 +149,7 @@ define(function (require, exports, module) {
         "Ctrl-L"
     );
     
-    menu.addMenuItem("convert_divider_a", "---");
+    menu.addMenuDivider();
     
     menu.addMenuItem(
         "convert_encode",
@@ -159,7 +161,7 @@ define(function (require, exports, module) {
         CommandManager.register("HTML Entity Decode", "convert_html.decode", _decodeHTMLEntities)
     );
     
-    menu.addMenuItem("convert_divider_b", "---");
+    menu.addMenuDivider();
     
     menu.addMenuItem(
         "convert_double_to_single",
@@ -176,7 +178,7 @@ define(function (require, exports, module) {
         CommandManager.register("Toggle Quotes", "convert_toggle_quotes", _toggleQuotes)
     );
     
-    menu.addMenuItem("convert_divider_c", "---");
+    menu.addMenuDivider();
     
     menu.addMenuItem(
         "convert_encode_uri_component",
@@ -188,7 +190,7 @@ define(function (require, exports, module) {
         CommandManager.register("Decode URI Component", "convert_decode_uri_component", _convertToDecodeURIComponent)
     );
     
-    menu.addMenuItem("convert_divider_d", "---");
+    menu.addMenuDivider();
     
     menu.addMenuItem(
         "convert_base64_encode",
@@ -200,7 +202,7 @@ define(function (require, exports, module) {
         CommandManager.register("Base64 Decode", "convert_base64_decode", _base64Decode)
     );
     
-    menu.addMenuItem("convert_divider_e", "---");
+    menu.addMenuDivider();
 
     menu.addMenuItem(
         "convert_strip_trailing_whitespace",
