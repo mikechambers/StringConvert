@@ -109,15 +109,21 @@ define(function (require, exports, module) {
     
     var _base64Encode = function () {
         var s = _getActiveSelection();
-        _replaceActiveSelection(btoa(s));
+        
+        try {
+            var encoded = btoa(s);
+            _replaceActiveSelection(encoded);
+        } catch (e) {
+            console.log("StringConvert : Base64 Encoding failed.");
+        }
     };
         
     var _base64Decode = function () {
         var s = _getActiveSelection();
         
         try {
-            var encoded = atob(s);
-            _replaceActiveSelection(encoded);
+            var decoded = atob(s);
+            _replaceActiveSelection(decoded);
         } catch (e) {
             console.log("StringConvert : Base64 Decoding failed.");
         }
