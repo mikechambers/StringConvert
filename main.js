@@ -114,7 +114,13 @@ define(function (require, exports, module) {
         
     var _base64Decode = function () {
         var s = _getActiveSelection();
-        _replaceActiveSelection(atob(s));
+        
+        try {
+            var encoded = atob(s);
+            _replaceActiveSelection(encoded);
+        } catch (e) {
+            console.log("StringConvert : Base64 Decoding failed.");
+        }
     };
     
     var _trimRightReg = /\s+$/;
