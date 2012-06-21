@@ -150,13 +150,11 @@ define(function (require, exports, module) {
     menu.addMenuDivider();
     
     menu.addMenuItem(
-        "convert_uppercase",
         CommandManager.register("To Upper Case", "convert_uppercase", _convertSelectionToUpperCase),
         "Ctrl-U"
     );
     
     menu.addMenuItem(
-        "convert_lowercase",
         CommandManager.register("To Lower Case", "convert_lowercase", _convertSelectionToLowerCase),
         "Ctrl-L"
     );
@@ -164,60 +162,40 @@ define(function (require, exports, module) {
     menu.addMenuDivider();
     
     menu.addMenuItem(
-        "convert_encode",
         CommandManager.register("HTML Entity Encode", "convert_html.encode", _encodeHTMLEntities)
     );
     
     menu.addMenuItem(
-        "convert_decode",
         CommandManager.register("HTML Entity Decode", "convert_html.decode", _decodeHTMLEntities)
     );
     
     menu.addMenuDivider();
     
     menu.addMenuItem(
-        "convert_double_to_single",
         CommandManager.register("Double to Single Quotes", "convert_double_to_single", _convertToSingleQuotes)
     );
     
     menu.addMenuItem(
-        "convert_single_to_double",
         CommandManager.register("Single to Double Quotes", "convert_single_to_double", _convertToDoubleQuotes)
     );
     
     menu.addMenuItem(
-        "convert_toggle_quotes",
         CommandManager.register("Toggle Quotes", "convert_toggle_quotes", _toggleQuotes)
     );
     
     menu.addMenuDivider();
     
     menu.addMenuItem(
-        "convert_encode_uri_component",
         CommandManager.register("Encode URI Component", "convert_encode_uri_component", _convertToEncodeURIComponent)
     );
     
     menu.addMenuItem(
-        "convert_decode_uri_component",
         CommandManager.register("Decode URI Component", "convert_decode_uri_component", _convertToDecodeURIComponent)
-    );
-    
-    menu.addMenuDivider();
-    
-    menu.addMenuItem(
-        "convert_base64_encode",
-        CommandManager.register("Base64 Encode", "convert_base64_encode", _base64Encode)
-    );
-  
-    menu.addMenuItem(
-        "convert_base64_decode",
-        CommandManager.register("Base64 Decode", "convert_base64_decode", _base64Decode)
     );
     
     menu.addMenuDivider();
 
     menu.addMenuItem(
-        "convert_strip_trailing_whitespace",
         CommandManager.register("Strip Trailing Whitespace", "convert_strip_trailing_whitespace", _cleanTrailingWhitespace)
     );
     
