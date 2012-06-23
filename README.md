@@ -16,8 +16,6 @@ https://github.com/adobe/brackets
 * Toggle quotes (single to double, double to single)
 * Encode URI Component
 * Decode URI Component
-* Base64 Encode
-* Base64 Decode
 * Strip Trailing Whitespace : Strips all extraneous whitespace from lines. Useful for cleaning up JavaScript code that needs to pass JSLint.
 
 ## Installation
