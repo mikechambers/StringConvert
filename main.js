@@ -156,6 +156,25 @@ define(function (require, exports, module) {
         _replaceActiveSelection(output);
     };
     
+    
+    var buildMenu = function (m) {
+        m.addMenuDivider();
+        m.addMenuItem(CONVERT_UPPERCASE, "Ctrl-U");
+        m.addMenuItem(CONVERT_LOWERCASE, "Ctrl-L");
+        m.addMenuDivider();
+        m.addMenuItem(CONVERT_HTML_ENCODE);
+        m.addMenuItem(CONVERT_HTML_DECODE);
+        m.addMenuDivider();
+        m.addMenuItem(CONVERT_DOUBLE_SINGLE);
+        m.addMenuItem(CONVERT_SINGLE_DOUBLE);
+        m.addMenuItem(CONVERT_TOGGLE_QUOTES);
+        m.addMenuDivider();
+        m.addMenuItem(CONVERT_ENCODE_URI);
+        m.addMenuItem(CONVERT_DECODE_URI);
+        m.addMenuDivider();
+        m.addMenuItem(CONVERT_STRIP_TRAILING_WHITESPACE);
+    };
+    
     CommandManager.register("To Upper Case", CONVERT_UPPERCASE, _convertSelectionToUpperCase);
     CommandManager.register("To Lower Case", CONVERT_LOWERCASE, _convertSelectionToLowerCase);
     CommandManager.register("HTML Entity Encode", CONVERT_HTML_ENCODE, _encodeHTMLEntities);
@@ -168,36 +187,8 @@ define(function (require, exports, module) {
     CommandManager.register("Strip Trailing Whitespace", CONVERT_STRIP_TRAILING_WHITESPACE, _cleanTrailingWhitespace);
     
     var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
-    menu.addMenuDivider();
-    menu.addMenuItem(CONVERT_UPPERCASE, "Ctrl-U");
-    menu.addMenuItem(CONVERT_LOWERCASE, "Ctrl-L");
-    menu.addMenuDivider();
-    menu.addMenuItem(CONVERT_HTML_ENCODE);
-    menu.addMenuItem(CONVERT_HTML_DECODE);
-    menu.addMenuDivider();
-    menu.addMenuItem(CONVERT_DOUBLE_SINGLE);
-    menu.addMenuItem(CONVERT_SINGLE_DOUBLE);
-    menu.addMenuItem(CONVERT_TOGGLE_QUOTES);
-    menu.addMenuDivider();
-    menu.addMenuItem(CONVERT_ENCODE_URI);
-    menu.addMenuItem(CONVERT_DECODE_URI);
-    menu.addMenuDivider();
-    menu.addMenuItem(CONVERT_STRIP_TRAILING_WHITESPACE);
+    buildMenu(menu);
     
     var contextMenu = Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU);
-    contextMenu.addMenuDivider();
-    contextMenu.addMenuItem(CONVERT_UPPERCASE, "Ctrl-U");
-    contextMenu.addMenuItem(CONVERT_LOWERCASE, "Ctrl-L");
-    contextMenu.addMenuDivider();
-    contextMenu.addMenuItem(CONVERT_HTML_ENCODE);
-    contextMenu.addMenuItem(CONVERT_HTML_DECODE);
-    contextMenu.addMenuDivider();
-    contextMenu.addMenuItem(CONVERT_DOUBLE_SINGLE);
-    contextMenu.addMenuItem(CONVERT_SINGLE_DOUBLE);
-    contextMenu.addMenuItem(CONVERT_TOGGLE_QUOTES);
-    contextMenu.addMenuDivider();
-    contextMenu.addMenuItem(CONVERT_ENCODE_URI);
-    contextMenu.addMenuItem(CONVERT_DECODE_URI);
-    contextMenu.addMenuDivider();
-    contextMenu.addMenuItem(CONVERT_STRIP_TRAILING_WHITESPACE);
+    buildMenu(contextMenu);
 });
