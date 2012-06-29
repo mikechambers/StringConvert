@@ -32,6 +32,17 @@ define(function (require, exports, module) {
     var CommandManager = brackets.getModule("command/CommandManager");
     var Menus          = brackets.getModule("command/Menus");
     
+    var CONVERT_UPPERCASE = "convert_uppercase";
+    var CONVERT_LOWERCASE = "convert_lowercase";
+    var CONVERT_HTML_ENCODE = "convert_html_encode";
+    var CONVERT_HTML_DECODE = "convert_html_decode";
+    var CONVERT_DOUBLE_SINGLE = "convert_double_to_single";
+    var CONVERT_SINGLE_DOUBLE = "convert_single_to_double";
+    var CONVERT_TOGGLE_QUOTES = "convert_toggle_quotes";
+    var CONVERT_ENCODE_URI = "convert_encode_uri_component";
+    var CONVERT_DECODE_URI = "convert_decode_uri_component";
+    var CONVERT_STRIP_TRAILING_WHITESPACE = "convert_strip_trailing_whitespace";
+    
     var _getActiveSelection = function () {
         return EditorManager.getFocusedEditor().getSelectedText();
     };
@@ -145,58 +156,48 @@ define(function (require, exports, module) {
         _replaceActiveSelection(output);
     };
     
+    CommandManager.register("To Upper Case", CONVERT_UPPERCASE, _convertSelectionToUpperCase);
+    CommandManager.register("To Lower Case", CONVERT_LOWERCASE, _convertSelectionToLowerCase);
+    CommandManager.register("HTML Entity Encode", CONVERT_HTML_ENCODE, _encodeHTMLEntities);
+    CommandManager.register("HTML Entity Decode", CONVERT_HTML_DECODE, _decodeHTMLEntities);
+    CommandManager.register("Double to Single Quotes", CONVERT_DOUBLE_SINGLE, _convertToSingleQuotes);
+    CommandManager.register("Single to Double Quotes", CONVERT_SINGLE_DOUBLE, _convertToDoubleQuotes);
+    CommandManager.register("Toggle Quotes", CONVERT_TOGGLE_QUOTES, _toggleQuotes);
+    CommandManager.register("Encode URI Component", CONVERT_ENCODE_URI, _convertToEncodeURIComponent);
+    CommandManager.register("Decode URI Component", CONVERT_DECODE_URI, _convertToDecodeURIComponent);
+    CommandManager.register("Strip Trailing Whitespace", CONVERT_STRIP_TRAILING_WHITESPACE, _cleanTrailingWhitespace);
+    
     var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
-    
     menu.addMenuDivider();
-    
-    menu.addMenuItem(
-        CommandManager.register("To Upper Case", "convert_uppercase", _convertSelectionToUpperCase),
-        "Ctrl-U"
-    );
-    
-    menu.addMenuItem(
-        CommandManager.register("To Lower Case", "convert_lowercase", _convertSelectionToLowerCase),
-        "Ctrl-L"
-    );
-    
+    menu.addMenuItem(CONVERT_UPPERCASE, "Ctrl-U");
+    menu.addMenuItem(CONVERT_LOWERCASE, "Ctrl-L");
     menu.addMenuDivider();
-    
-    menu.addMenuItem(
-        CommandManager.register("HTML Entity Encode", "convert_html.encode", _encodeHTMLEntities)
-    );
-    
-    menu.addMenuItem(
-        CommandManager.register("HTML Entity Decode", "convert_html.decode", _decodeHTMLEntities)
-    );
-    
+    menu.addMenuItem(CONVERT_HTML_ENCODE);
+    menu.addMenuItem(CONVERT_HTML_DECODE);
     menu.addMenuDivider();
-    
-    menu.addMenuItem(
-        CommandManager.register("Double to Single Quotes", "convert_double_to_single", _convertToSingleQuotes)
-    );
-    
-    menu.addMenuItem(
-        CommandManager.register("Single to Double Quotes", "convert_single_to_double", _convertToDoubleQuotes)
-    );
-    
-    menu.addMenuItem(
-        CommandManager.register("Toggle Quotes", "convert_toggle_quotes", _toggleQuotes)
-    );
-    
+    menu.addMenuItem(CONVERT_DOUBLE_SINGLE);
+    menu.addMenuItem(CONVERT_SINGLE_DOUBLE);
+    menu.addMenuItem(CONVERT_TOGGLE_QUOTES);
     menu.addMenuDivider();
-    
-    menu.addMenuItem(
-        CommandManager.register("Encode URI Component", "convert_encode_uri_component", _convertToEncodeURIComponent)
-    );
-    
-    menu.addMenuItem(
-        CommandManager.register("Decode URI Component", "convert_decode_uri_component", _convertToDecodeURIComponent)
-    );
-    
+    menu.addMenuItem(CONVERT_ENCODE_URI);
+    menu.addMenuItem(CONVERT_DECODE_URI);
     menu.addMenuDivider();
-
-    menu.addMenuItem(
-        CommandManager.register("Strip Trailing Whitespace", "convert_strip_trailing_whitespace", _cleanTrailingWhitespace)
-    );
+    menu.addMenuItem(CONVERT_STRIP_TRAILING_WHITESPACE);
     
+    var contextMenu = Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU);
+    contextMenu.addMenuDivider();
+    contextMenu.addMenuItem(CONVERT_UPPERCASE, "Ctrl-U");
+    contextMenu.addMenuItem(CONVERT_LOWERCASE, "Ctrl-L");
+    contextMenu.addMenuDivider();
+    contextMenu.addMenuItem(CONVERT_HTML_ENCODE);
+    contextMenu.addMenuItem(CONVERT_HTML_DECODE);
+    contextMenu.addMenuDivider();
+    contextMenu.addMenuItem(CONVERT_DOUBLE_SINGLE);
+    contextMenu.addMenuItem(CONVERT_SINGLE_DOUBLE);
+    contextMenu.addMenuItem(CONVERT_TOGGLE_QUOTES);
+    contextMenu.addMenuDivider();
+    contextMenu.addMenuItem(CONVERT_ENCODE_URI);
+    contextMenu.addMenuItem(CONVERT_DECODE_URI);
+    contextMenu.addMenuDivider();
+    contextMenu.addMenuItem(CONVERT_STRIP_TRAILING_WHITESPACE);
 });

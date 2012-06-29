@@ -24,7 +24,7 @@ Place StringConvert in the _brackets-app/brackets/extensions/user/_ directory, a
 
 ## Usage
 
-Select text and then select the command from the _Edit_ menu.
+Select text and then select the command from the _Edit_ menu, or by right clicking and selecting the command from the context menu.
 
 Some commands also have keyboard shortcuts:
 
