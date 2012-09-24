@@ -26,11 +26,11 @@ Place StringConvert in the _brackets-app/brackets/extensions/user/_ directory, a
 
 Select text and then select the command from the _Edit_ menu, or by right clicking and selecting the command from the context menu.
 
-Some commands also have keyboard shortcuts:
+##Releases
 
-**CTRL / CMD - U** : Converts selected text to upper case.  
-**CTRL / CMD - L** : Converts selected text to lower case.  
+### September 24, 2012
 
+ * Removed keyboard shortcuts (conflicted with built in Brackets shortcuts, will re-add at a future date).
 
 Created by Mike Chambers  
 https://github.com/mikechambers/StringConvert  

@@ -159,8 +159,8 @@ define(function (require, exports, module) {
     
     var buildMenu = function (m) {
         m.addMenuDivider();
-        m.addMenuItem(CONVERT_UPPERCASE, "Ctrl-U");
-        m.addMenuItem(CONVERT_LOWERCASE, "Ctrl-L");
+        m.addMenuItem(CONVERT_UPPERCASE);
+        m.addMenuItem(CONVERT_LOWERCASE);
         m.addMenuDivider();
         m.addMenuItem(CONVERT_HTML_ENCODE);
         m.addMenuItem(CONVERT_HTML_DECODE);
