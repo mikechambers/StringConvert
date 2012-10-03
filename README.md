@@ -17,6 +17,8 @@ https://github.com/adobe/brackets
 * Encode URI Component
 * Decode URI Component
 * Strip Trailing Whitespace : Strips all extraneous whitespace from lines. Useful for cleaning up JavaScript code that needs to pass JSLint.
+* Convert Tabs to Spaces
+* Convert Spaces to Tabs
 
 ## Installation
 
@@ -27,6 +29,11 @@ Place StringConvert in the _brackets-app/brackets/extensions/user/_ directory, a
 Select text and then select the command from the _Edit_ menu, or by right clicking and selecting the command from the context menu.
 
 ##Releases
+
+### October 3, 2012
+ * Added Convert Tabs to Spaces
+ * Added Convert Spaces to Tabs
+ * Fixed Issue #2 : Double-quote chars not converted to HTML Entities
 
 ### September 24, 2012
 
