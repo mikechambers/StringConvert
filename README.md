@@ -1,10 +1,13 @@
 StringConvert
 =============
 
-String conversion extension for the Adobe Brackets Web Editor.
+String conversion extension for the Brackets and Edge Code editors.
 
-Adobe Brackets:
+Brackets:
 https://github.com/adobe/brackets
+
+Edge Code
+http://html.adobe.com/edge/code/
 
 ## Features
 * Convert to upper case
@@ -22,7 +25,7 @@ https://github.com/adobe/brackets
 
 ## Installation
 
-Place StringConvert in the _brackets-app/brackets/extensions/user/_ directory, and refresh brackets.
+You can install the extension from the Brackets / Edge Code Extension Manager (File > Extension Manager)
 
 ## Usage
 
@@ -30,14 +33,16 @@ Select text and then select the command from the _Edit_ menu, or by right clicki
 
 ##Releases
 
+### August 20, 2013
+ * Some minor refactoring
+
 ### October 3, 2012
  * Added Convert Tabs to Spaces
  * Added Convert Spaces to Tabs
  * Fixed Issue #2 : Double-quote chars not converted to HTML Entities
 
 ### September 24, 2012
-
- * Removed keyboard shortcuts (conflicted with built in Brackets shortcuts, will re-add at a future date).
+ * Removed keyboard shortcuts (conflicted with built in Brackets shortcuts, will re-add at a future date)
 
 Created by Mike Chambers  
 https://github.com/mikechambers/StringConvert  

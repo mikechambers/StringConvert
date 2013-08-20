@@ -44,7 +44,7 @@ define(function (require, exports, module) {
     var CONVERT_DECODE_URI = "convert_decode_uri_component";
     var CONVERT_STRIP_TRAILING_WHITESPACE = "convert_strip_trailing_whitespace";
     var CONVERT_TABS_TO_SPACES = "convert_tabs_to_spaces";
-    var CONVERT_SPACES_TO_TABS = "_convertSpacesToTabs";
+    var CONVERT_SPACES_TO_TABS = "convert_spaces_to_tabs";
 
 
     var _getActiveSelection = function () {
@@ -58,6 +58,8 @@ define(function (require, exports, module) {
     var _convertTabsToSpaces = function () {
         var s = _getActiveSelection();
 
+        console.log("convertTabsToSpaces");
+        
         var spaceCount = EditorManager.getFocusedEditor()._codeMirror.getOption("tabSize");
 
         var chars = s.split("");
@@ -69,10 +71,9 @@ define(function (require, exports, module) {
         var i;
         for (i = 0; i < len; i++) {
             char = chars[i];
-
             if (char === "\t") {
                 spaces = 4 - (out.length % spaceCount);
-                console.log(spaces);
+                //console.log(spaces);
                 var k;
                 for (k = 0; k < spaces; k++) {
                     out.push(" ");
