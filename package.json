@@ -1,6 +1,6 @@
 {
-   "name": "stringconvert",
-   "version": "0.8.6",
+   "name": "String Convert",
+   "version": "0.8.7",
    "description": "String conversion extension for the Adobe Brackets Web Editor.",
    "keywords": [
        "extension",
